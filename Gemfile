@@ -15,6 +15,7 @@ gem 'bootstrap-sass'
 gem 'devise', '~> 3.1.0.rc2'
 gem 'paperclip', github: 'thoughtbot/paperclip'
 
+
 group :development, :test do
 	gem 'sqlite3'
 end
@@ -22,4 +23,5 @@ end
 group :production do
 	gem 'pg'
 	gem 'rails_12factor'
+	gem 'aws-sdk'
 end
