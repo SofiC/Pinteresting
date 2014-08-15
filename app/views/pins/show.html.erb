@@ -13,10 +13,10 @@
 					<p><strong><%=@pin.user.email if @pin.user %></strong></p>
 
 					<% if @pin.user == current_user %>
-						<%= link_to edit_pin_path do %>
-						<span class="glyphicon glyphicon-edit"></span>
-						Edit
-						<%end%>
+						<%= link_to edit_pin_path(@pin) do %>
+        				<span class="glyphicon glyphicon-edit"></span>
+        				Edit
+      					<% end %>
 						<%=link_to method: :delete, data: { confirm: 'Are you sure?' } do%>
 						<i class="fa-trash-o"></i>
 						Delete
