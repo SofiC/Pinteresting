@@ -1,10 +1,11 @@
 class PinsController < ApplicationController
   before_action :set_pin, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index]
 
   def index
     @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page], :per_page => 8)
+    @current_user = current_user
  end
 
   def show
@@ -52,9 +53,13 @@ class PinsController < ApplicationController
     end
 
     def correct_user
-      @pin = current_user.pins.find_by(id: params[:id])
-      redirect_to pins_path, notice: "Not authorized to edit this pin" if @pin.nil?
-    end
+   Rails.logger.info "Parameter id is: #{params[:id]}"
+   Rails.logger.info "Current user is: #{current_user}"
+    person_pin = Pin.find_by_user_id_and_id(current_user, params[:id])
+   Rails.logger.info "Is person_pin nil: #{person_pin.nil?}"
+   Rails.logger.info person_pin
+   redirect_to pins_path, notice: "Not authorized to edit this pin" if person_pin.nil? unless current_user.admin
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pin_params
